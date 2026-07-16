@@ -9,7 +9,7 @@
 - **Backend**: FastAPI + SQLAlchemy (로컬 SQLite / 운영 Neon Postgres, `DATABASE_URL`로 전환)
 - **Frontend**: Vanilla JS + Tailwind CSS (CDN), 프레임워크 없음
 - **Auth**: JWT(24h, 갱신 없음) + bcrypt
-- **배포**: Vercel (FE+BE) + Vercel Storage(Neon) — https://taskflow-openspec-ochre.vercel.app
+- **배포**: Vercel (FE+BE) + Vercel Storage(Neon) — https://taskflow-umber-seven.vercel.app
 
 ## 기능
 
@@ -63,7 +63,7 @@ docs/                기획 PDF 2종 + 수동 검증 결과(docx, 스크린샷)
 
 ## 배포
 
-- **Production**: https://taskflow-openspec-ochre.vercel.app
+- **Production**: https://taskflow-umber-seven.vercel.app
 - FE는 `frontend/`를 정적 파일로, BE는 `api/index.py`(→ `backend/main.py`)를 Python Serverless Function으로 배포 (`vercel.json` 참고)
 - DB는 Vercel Marketplace의 Neon 통합(`vercel integration add neon`)으로 자동 프로비저닝, `DATABASE_URL`이 프로젝트에 자동 주입됨
 

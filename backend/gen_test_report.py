@@ -132,6 +132,25 @@ add_section(
     screenshots=[("배포된 Vercel URL(https://taskflow-openspec-ochre.vercel.app)에서 채팅 전송 확인", "09-vercel-prod-chat.png")],
 )
 
+add_section(
+    "7. 루트 경로 404 수정 + 프로덕션 모바일 재확인",
+    [
+        ("배포 도메인 루트(/) 접근 시 404 발생 → frontend/index.html 추가로 수정", "curl + 브라우저", "FIXED"),
+        ("비로그인 상태로 루트(/) 접근 → /login.html로 리다이렉트", "브라우저", "PASS"),
+        ("로그인 상태로 루트(/) 접근 → /app.html로 리다이렉트", "브라우저", "PASS"),
+        ("프로덕션 URL, 390x844 모바일 뷰포트에서 로그인 화면 정상 렌더링", "브라우저", "PASS"),
+        ("프로덕션 URL, 모바일 칸반 화면 (햄버거 버튼, 세로 스택 컬럼)", "브라우저", "PASS"),
+        ("프로덕션 URL, 모바일 햄버거 드로어 오픈", "브라우저", "PASS"),
+        ("프로덕션 URL, 모바일 드로어에서 채팅 화면으로 이동", "브라우저", "PASS"),
+    ],
+    screenshots=[
+        ("프로덕션 모바일: 로그인 화면", "10-mobile-prod-login.png"),
+        ("프로덕션 모바일: 칸반 화면", "11-mobile-prod-kanban.png"),
+        ("프로덕션 모바일: 햄버거 드로어", "12-mobile-prod-drawer.png"),
+        ("프로덕션 모바일: 채팅 화면", "13-mobile-prod-chat.png"),
+    ],
+)
+
 doc.add_heading("종합", level=1)
 summary = doc.add_paragraph()
 summary.add_run(

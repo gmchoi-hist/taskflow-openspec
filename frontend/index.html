@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="refresh" content="0; url=/login.html" />
+<title>TaskFlow</title>
+</head>
+<body>
+  <script src="/js/api.js"></script>
+  <script>
+    (async () => {
+      const token = getToken();
+      if (!token) {
+        location.replace('/login.html');
+        return;
+      }
+      try {
+        const me = await apiFetch('/auth/me');
+        location.replace(me.team_id ? '/app.html' : '/team-select.html');
+      } catch (e) {
+        location.replace('/login.html');
+      }
+    })();
+  </script>
+  <noscript>
+    <meta http-equiv="refresh" content="0; url=/login.html" />
+  </noscript>
+</body>
+</html>

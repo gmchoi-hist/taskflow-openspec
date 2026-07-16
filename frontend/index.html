@@ -2,28 +2,27 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8" />
-<meta http-equiv="refresh" content="0; url=/login.html" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>TaskFlow</title>
+<script>
+  (function () {
+    var t = localStorage.getItem('theme');
+    if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    if (t === 'dark') document.documentElement.classList.add('dark');
+  })();
+</script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config = { darkMode: 'class' };</script>
+<link rel="stylesheet" href="/css/theme.css" />
 </head>
-<body>
+<body class="min-h-screen flex items-center justify-center">
+  <div class="text-2xl animate-pulse" style="font-family: -apple-system, sans-serif;">⏳</div>
   <script src="/js/api.js"></script>
   <script>
     (async () => {
-      const token = getToken();
-      if (!token) {
-        location.replace('/login.html');
-        return;
-      }
-      try {
-        const me = await apiFetch('/auth/me');
-        location.replace(me.team_id ? '/app.html' : '/team-select.html');
-      } catch (e) {
-        location.replace('/login.html');
-      }
+      const redirected = await autoLoginRedirectIfPossible();
+      if (!redirected) location.replace('/login.html');
     })();
   </script>
-  <noscript>
-    <meta http-equiv="refresh" content="0; url=/login.html" />
-  </noscript>
 </body>
 </html>

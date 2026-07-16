@@ -22,7 +22,7 @@
       $(`#view-${v}`).classList.toggle('hidden', v !== view);
     });
     $$('.nav-btn').forEach((btn) => {
-      btn.classList.toggle('bg-teal-700', btn.dataset.view === view);
+      btn.classList.toggle('bg-[#0a84ff]', btn.dataset.view === view);
       btn.classList.toggle('text-white', btn.dataset.view === view);
     });
     $('#mobile-drawer').classList.add('hidden');
@@ -107,12 +107,12 @@
   $$('.filter-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
       currentFilter = btn.dataset.filter;
-      $$('.filter-btn').forEach((b) => b.classList.toggle('bg-slate-800', b === btn));
+      $$('.filter-btn').forEach((b) => b.classList.toggle('bg-[#0a84ff]', b === btn));
       $$('.filter-btn').forEach((b) => b.classList.toggle('text-white', b === btn));
       loadTasks();
     });
   });
-  $('[data-filter="all"]').classList.add('bg-slate-800', 'text-white');
+  $('[data-filter="all"]').classList.add('bg-[#0a84ff]', 'text-white');
 
   async function loadTasks() {
     const qs = currentFilter === 'all' ? '' : `?filter=${currentFilter}`;
@@ -140,19 +140,19 @@
       list.innerHTML = '';
 
       if (filtered.length === 0) {
-        list.innerHTML = `<div class="text-center text-slate-400 text-sm py-6">카드 없음</div>`;
+        list.innerHTML = `<div class="text-center text-slate-400 dark:text-slate-500 text-sm py-6">카드 없음</div>`;
         return;
       }
 
       filtered.forEach((task) => {
         const card = document.createElement('div');
-        card.className = 'bg-white rounded shadow-sm border p-3 cursor-pointer hover:shadow';
+        card.className = 'kanban-card bg-white/80 dark:bg-white/[0.06] rounded-xl border border-black/5 dark:border-white/10 p-3 cursor-pointer';
         card.draggable = true;
         card.dataset.taskId = task.id;
         const assigneeLabel = task.assignee_id ? '@' + memberEmail(task.assignee_id).split('@')[0] : '⚠미할당';
         card.innerHTML = `
-          <div class="font-medium">${escapeHtml(task.title)}</div>
-          <div class="text-xs text-slate-400 mt-1">#${task.id} · ${assigneeLabel}</div>
+          <div class="font-medium text-slate-900 dark:text-slate-50">${escapeHtml(task.title)}</div>
+          <div class="text-xs text-slate-400 dark:text-slate-500 mt-1">#${task.id} · ${assigneeLabel}</div>
         `;
         card.addEventListener('click', () => openTaskModal(task));
         card.addEventListener('dragstart', (e) => {
@@ -213,7 +213,7 @@
     $('#modal-error').textContent = '';
 
     $$('.modal-status-btn').forEach((b) => {
-      b.classList.toggle('bg-teal-700', b.dataset.status === task.status);
+      b.classList.toggle('bg-[#0a84ff]', b.dataset.status === task.status);
       b.classList.toggle('text-white', b.dataset.status === task.status);
     });
     modalTask.selectedStatus = task.status;
@@ -237,7 +237,7 @@
     btn.addEventListener('click', () => {
       modalTask.selectedStatus = btn.dataset.status;
       $$('.modal-status-btn').forEach((b) => {
-        b.classList.toggle('bg-teal-700', b === btn);
+        b.classList.toggle('bg-[#0a84ff]', b === btn);
         b.classList.toggle('text-white', b === btn);
       });
     });
@@ -325,9 +325,13 @@
     const wrap = document.createElement('div');
     wrap.className = mine ? 'text-right' : '';
     const time = (msg.created_at || '').slice(11, 16);
+    const bubbleClass = mine
+      ? 'text-white'
+      : 'bg-black/5 dark:bg-white/10 text-slate-900 dark:text-slate-50';
+    const bubbleStyle = mine ? 'background: linear-gradient(160deg,#1a93ff,#0a78ea);' : '';
     wrap.innerHTML = `
-      <div class="text-xs text-slate-400">${escapeHtml(msg.user_email)} · ${time}</div>
-      <div class="inline-block mt-1 px-3 py-2 rounded max-w-[80%] ${mine ? 'bg-teal-700 text-white' : 'bg-slate-100'}">
+      <div class="text-xs text-slate-400 dark:text-slate-500">${escapeHtml(msg.user_email)} · ${time}</div>
+      <div class="inline-block mt-1 px-3 py-2 rounded-2xl max-w-[80%] ${bubbleClass}" style="${bubbleStyle}">
         <span class="msg-content">${escapeHtml(msg.content)}</span>
         ${mine ? `<button class="msg-delete-btn ml-2 text-xs opacity-70" data-msg-id="${msg.id}">🗑</button>` : ''}
       </div>
@@ -393,10 +397,10 @@
       row.className = 'flex justify-between items-center px-4 py-3';
       row.innerHTML = `
         <div class="flex items-center gap-2">
-          <div class="w-7 h-7 rounded-full bg-slate-500 text-white flex items-center justify-center text-xs">${m.email[0].toUpperCase()}</div>
-          <div class="text-sm">${escapeHtml(m.email)}${m.id === currentUser.id ? ' (나)' : ''}</div>
+          <div class="w-7 h-7 rounded-full text-white flex items-center justify-center text-xs font-semibold" style="background: linear-gradient(160deg,#8e8ea0,#6e6e73);">${m.email[0].toUpperCase()}</div>
+          <div class="text-sm text-slate-800 dark:text-slate-100">${escapeHtml(m.email)}${m.id === currentUser.id ? ' (나)' : ''}</div>
         </div>
-        <span class="text-xs ${m.is_owner ? 'text-amber-600 font-bold' : 'text-slate-400'}">${m.is_owner ? '★ owner' : 'member'}</span>
+        <span class="text-xs ${m.is_owner ? 'text-amber-500 font-bold' : 'text-slate-400 dark:text-slate-500'}">${m.is_owner ? '★ owner' : 'member'}</span>
       `;
       list.appendChild(row);
     });

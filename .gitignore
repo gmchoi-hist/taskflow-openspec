@@ -1,0 +1,9 @@
+*.db
+*.sqlite
+*.sqlite3
+.env
+.env.local
+__pycache__/
+*.pyc
+node_modules/
+.vercel

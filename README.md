@@ -2,14 +2,14 @@
 
 소규모 팀(3-5인)이 칸반 + 실시간(폴링) 채팅으로 업무 진행을 한 화면에서 추적하는 MVP입니다.
 
-기획·스펙은 [`docs/TaskFlow_프로그램정의.pdf`](docs/TaskFlow_프로그램정의.pdf), [`docs/TaskFlow_스토리보드.pdf`](docs/TaskFlow_스토리보드.pdf)를 기반으로 [OpenSpec](https://github.com/Fission-AI/OpenSpec)의 `add-mvp-core` change(`openspec/changes/add-mvp-core/`)로 정리되어 있습니다.
+기획·스펙은 [`docs/TaskFlow_프로그램정의.pdf`](docs/TaskFlow_프로그램정의.pdf), [`docs/TaskFlow_스토리보드.pdf`](docs/TaskFlow_스토리보드.pdf)를 기반으로 [OpenSpec](https://github.com/Fission-AI/OpenSpec)의 `add-mvp-core` change로 정리했고, 구현 완료 후 `openspec/changes/archive/2026-07-16-add-mvp-core/`로 아카이브했습니다. 확정된 스펙은 `openspec/specs/{user-auth,team-management,kanban-board,team-chat}/spec.md`에 있습니다.
 
 ## 기술 스택
 
 - **Backend**: FastAPI + SQLAlchemy (로컬 SQLite / 운영 Neon Postgres, `DATABASE_URL`로 전환)
 - **Frontend**: Vanilla JS + Tailwind CSS (CDN), 프레임워크 없음
 - **Auth**: JWT(24h, 갱신 없음) + bcrypt
-- **배포**: Vercel (FE+BE) + Vercel Storage(Neon) — 아직 미배포
+- **배포**: Vercel (FE+BE) + Vercel Storage(Neon) — https://taskflow-openspec-ochre.vercel.app
 
 ## 기능
 
@@ -61,8 +61,14 @@ openspec/           OpenSpec 스펙 (proposal/design/specs/tasks)
 docs/                기획 PDF 2종 + 수동 검증 결과(docx, 스크린샷)
 ```
 
+## 배포
+
+- **Production**: https://taskflow-openspec-ochre.vercel.app
+- FE는 `frontend/`를 정적 파일로, BE는 `api/index.py`(→ `backend/main.py`)를 Python Serverless Function으로 배포 (`vercel.json` 참고)
+- DB는 Vercel Marketplace의 Neon 통합(`vercel integration add neon`)으로 자동 프로비저닝, `DATABASE_URL`이 프로젝트에 자동 주입됨
+
 ## 진행 상태
 
-`openspec/changes/add-mvp-core/tasks.md` 기준 44개 작업 중 38개 완료. 백엔드 API 18개 + 프론트엔드 9화면은 구현·수동 검증 완료. Vercel/Neon 실제 배포(7.2~7.4)와 배포 후 스모크 테스트(8.6)는 계정 연동이 필요해 미진행 상태입니다.
+`openspec/changes/archive/2026-07-16-add-mvp-core/tasks.md` 기준 44개 작업 전부 완료. 백엔드 API 18개 + 프론트엔드 9화면 구현·로컬 수동 검증·Vercel+Neon 프로덕션 배포·배포 후 스모크 테스트(브라우저 자동화 + curl)까지 완료했습니다.
 
 수동 검증 결과는 [`docs/TaskFlow_MVP_테스트결과.docx`](docs/TaskFlow_MVP_테스트결과.docx)에서 화면 캡처와 함께 확인할 수 있습니다.

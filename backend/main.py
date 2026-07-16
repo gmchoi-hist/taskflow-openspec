@@ -55,5 +55,6 @@ def health():
 
 
 FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "..", "frontend")
-if os.path.isdir(FRONTEND_DIR):
+# Vercel에서는 frontend/를 별도 정적 파일로 서빙하므로(vercel.json) 여기서 마운트하지 않는다.
+if not os.environ.get("VERCEL") and os.path.isdir(FRONTEND_DIR):
     app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")

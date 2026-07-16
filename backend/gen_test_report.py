@@ -119,18 +119,29 @@ add_section(
     ],
 )
 
+add_section(
+    "6. Vercel 배포 + 프로덕션 스모크 테스트",
+    [
+        ("vercel integration add neon → Neon Postgres 자동 프로비저닝 + DATABASE_URL 자동 주입", "CLI", "PASS"),
+        ("vercel deploy --prod → FE(정적) + BE(Python Serverless Function) 배포", "CLI", "PASS"),
+        ("GET /health → 200 (SQLite 기본값일 땐 500이었으나 Neon 연결 후 정상화)", "curl", "PASS"),
+        ("프로덕션에서 회원가입 → 팀 생성 → 칸반 태스크 생성(한글) → 채팅 전송", "브라우저(Playwright)", "PASS"),
+        ("프로덕션에서 owner 탈퇴 시도 → 403 OWNER_CANNOT_LEAVE", "curl", "PASS"),
+        ("프로덕션에서 비멤버 접근 → 403 FORBIDDEN", "curl", "PASS"),
+    ],
+    screenshots=[("배포된 Vercel URL(https://taskflow-openspec-ochre.vercel.app)에서 채팅 전송 확인", "09-vercel-prod-chat.png")],
+)
+
 doc.add_heading("종합", level=1)
 summary = doc.add_paragraph()
 summary.add_run(
     "백엔드 API 18개(Auth 4 + Team 5 + Task 6 + Chat 3)와 프론트엔드 9개 화면 모두 spec-driven 스펙에 정의된 "
     "정상/에러 시나리오대로 동작함을 확인했다. 결정 #9(owner 탈퇴 차단), 결정 #10(5초 고정 폴링) 모두 코드와 "
-    "화면에 그대로 반영되어 있다.\n"
+    "화면에 그대로 반영되어 있다. Vercel(FE+BE) + Neon(Postgres) 배포까지 완료했고, 배포된 URL에서 동일한 "
+    "시나리오를 브라우저 자동화와 curl로 재검증했다.\n"
 )
-summary.add_run("미검증 영역: ").bold = True
-summary.add_run(
-    "Vercel/Neon 배포(7.2~7.4)와 배포된 URL 기준 스모크 테스트(8.6)는 실제 Vercel/Neon 계정 연동이 필요해 "
-    "이번 세션에서는 진행하지 않았다."
-)
+summary.add_run("배포 URL: ").bold = True
+summary.add_run("https://taskflow-openspec-ochre.vercel.app")
 
 doc.save(OUT_PATH)
 print(f"Saved: {OUT_PATH}")

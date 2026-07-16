@@ -53,9 +53,9 @@
 ## 7. 배포
 
 - [x] 7.1 로컬: SQLite 파일 기반 동작 확인 (`git`에서 DB 파일 제외)
-- [ ] 7.2 Vercel Storage에서 Neon Postgres 프로비저닝, `DATABASE_URL`(Pooled) 자동 주입 확인 — Vercel/Neon 계정 연동 필요, 미진행
-- [ ] 7.3 Vercel에 FE(정적 파일) + BE(FastAPI Serverless Functions) 배포 — 위와 동일 사유로 미진행
-- [ ] 7.4 운영 CORS 도메인 값 확정 및 적용 — 배포 도메인 확정 전까지 보류
+- [x] 7.2 Vercel Storage에서 Neon Postgres 프로비저닝, `DATABASE_URL`(Pooled) 자동 주입 확인 (`vercel integration add neon`)
+- [x] 7.3 Vercel에 FE(정적 파일) + BE(FastAPI Serverless Functions) 배포 (https://taskflow-openspec-ochre.vercel.app)
+- [x] 7.4 운영 CORS 도메인 값 확정 및 적용 (`CORS_ORIGINS`에 배포 도메인 반영)
 
 ## 8. 수동 검증 (자동화 테스트 없음, Day 2 범위)
 
@@ -64,4 +64,4 @@
 - [x] 8.3 채팅 전송/폴링/1000자 초과/본인 아닌 메시지 삭제 시도(403) 수동 확인 (브라우저 + curl)
 - [x] 8.4 비멤버가 다른 팀 리소스 접근 시 403 일괄 확인 (curl로 백엔드 API 확인 완료, UI 안내 화면은 6.9에서 별도 확인)
 - [x] 8.5 owner의 `/teams/{id}/leave` 시도 시 403 확인
-- [ ] 8.6 배포된 Vercel URL에서 위 시나리오 스모크 테스트 1회 — 배포(7.2~7.4) 완료 후 진행
+- [x] 8.6 배포된 Vercel URL에서 위 시나리오 스모크 테스트 1회 (Playwright + curl, https://taskflow-openspec-ochre.vercel.app)

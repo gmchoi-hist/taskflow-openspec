@@ -151,6 +151,22 @@ add_section(
     ],
 )
 
+add_section(
+    "8. 로컬 재검증 (배포 관련 코드 변경 이후)",
+    [
+        ("database.py/main.py의 Vercel 대응 변경(postgres:// 정규화, VERCEL 조건부 StaticFiles) 이후 로컬 서버 재기동", "uvicorn", "PASS"),
+        ("회원가입 성공/이메일 중복(409)/약한 비밀번호(400)", "curl", "PASS"),
+        ("로그인 성공/실패(401 INVALID_CREDENTIALS)", "curl", "PASS"),
+        ("팀 생성 → 초대코드 합류(성공/404) → 멤버 목록 조회", "curl", "PASS"),
+        ("태스크 생성(assignee) → 필터(@me/미할당) → 상태변경(PATCH) → 삭제 권한(403→200)", "curl", "PASS"),
+        ("채팅 전송 → 1000자 초과(400 TOO_LONG) → 삭제 권한(403 NOT_OWNER→200)", "curl", "PASS"),
+        ("owner 탈퇴 차단(403) / 비멤버 팀 접근 차단(403)", "curl", "PASS"),
+        ("root(/) → /login.html 리다이렉트, 회원가입 → 팀 생성 → 칸반 → 채팅 → 멤버 화면 전체 플로우", "브라우저(Playwright)", "PASS"),
+        ("브라우저 콘솔 에러 0건 (favicon 404 제외)", "브라우저", "PASS"),
+    ],
+    screenshots=[("로컬 재검증: 멤버 화면 (owner 팀 탈퇴 버튼 비활성화)", "14-local-recheck-members.png")],
+)
+
 doc.add_heading("종합", level=1)
 summary = doc.add_paragraph()
 summary.add_run(
